@@ -1,9 +1,9 @@
 package transaction
 
 type transactionLine struct {
-	LedgerAccountId   string  `json:"ledger_account_id"`
-	BusinessPartnerId string  `json:"business_partner_id"`
-	ProjectId         string  `json:"project_id"`
+	LedgerAccountID   string  `json:"ledger_account_id"`
+	BusinessPartnerID string  `json:"business_partner_id"`
+	ProjectID         string  `json:"project_id"`
 	Credit            float64 `json:"credit"`
 	Debit             float64 `json:"debit"`
 	Amount            float64 `json:"amount"`
@@ -11,9 +11,9 @@ type transactionLine struct {
 }
 
 type TransactionLineCreateProps struct {
-	LedgerAccountId   string
-	BusinessPartnerId string
-	ProjectId         string
+	LedgerAccountID   string
+	BusinessPartnerID string
+	ProjectID         string
 	Credit            float64
 	Debit             float64
 	Description       string
@@ -21,9 +21,9 @@ type TransactionLineCreateProps struct {
 
 func NewLine(props TransactionLineCreateProps) (transactionLine, error) {
 	return transactionLine{
-		LedgerAccountId:   props.LedgerAccountId,
-		BusinessPartnerId: props.BusinessPartnerId,
-		ProjectId:         props.ProjectId,
+		LedgerAccountID:   props.LedgerAccountID,
+		BusinessPartnerID: props.BusinessPartnerID,
+		ProjectID:         props.ProjectID,
 		Credit:            props.Credit,
 		Debit:             props.Debit,
 		Amount:            props.Credit - props.Debit,

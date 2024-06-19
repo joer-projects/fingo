@@ -19,27 +19,27 @@ func TestTransaction(t *testing.T) {
 		CreatedBy := "test"
 
 		tx, err := New(NewProps{
-			TypeId:        1,
+			TypeID:        1,
 			AccountNumber: &AccountNumber,
 			Memo:          &Memo,
-			ProjectId:     &ProjectId,
+			ProjectID:     &ProjectId,
 			PostingDate:   PostingDate,
 			CreatedBy:     CreatedBy,
 			TransactionLines: []TransactionLineCreateProps{
 				{
-					LedgerAccountId:   "1234567890",
-					BusinessPartnerId: "1234567890",
+					LedgerAccountID:   "1234567890",
+					BusinessPartnerID: "1234567890",
 					Credit:            100.0,
 					Debit:             0.0,
-					ProjectId:         "123",
+					ProjectID:         "123",
 					Description:       "test",
 				},
 				{
-					LedgerAccountId:   "1234567890",
-					BusinessPartnerId: "1234567890",
+					LedgerAccountID:   "1234567890",
+					BusinessPartnerID: "1234567890",
 					Credit:            0.0,
 					Debit:             100.0,
-					ProjectId:         "123",
+					ProjectID:         "123",
 					Description:       "test",
 				},
 			},
@@ -50,12 +50,12 @@ func TestTransaction(t *testing.T) {
 		assert.Equal(t, 1, tx.props.TransactionType.Id)
 		assert.Equal(t, AccountNumber, *tx.props.AccountNumber)
 		assert.Equal(t, Memo, *tx.props.Memo)
-		assert.Equal(t, ProjectId, *tx.props.ProjectId)
+		assert.Equal(t, ProjectId, *tx.props.ProjectID)
 		assert.Equal(t, PostingDate, tx.props.PostingDate)
 		assert.Equal(t, CreatedBy, tx.props.CreatedBy)
 		assert.Equal(t, 2, len(tx.props.TransactionLines))
-		assert.Equal(t, "1234567890", tx.props.TransactionLines[0].LedgerAccountId)
-		assert.Equal(t, "1234567890", tx.props.TransactionLines[0].BusinessPartnerId)
+		assert.Equal(t, "1234567890", tx.props.TransactionLines[0].LedgerAccountID)
+		assert.Equal(t, "1234567890", tx.props.TransactionLines[0].BusinessPartnerID)
 		assert.Equal(t, 100.0, tx.props.TransactionLines[0].Credit)
 		assert.Equal(t, 0.0, tx.props.TransactionLines[0].Debit)
 	})

@@ -1,23 +1,22 @@
 package transaction
 
 import (
-	"encoding/json"
 	"time"
 )
 
 type NewProps struct {
-	TypeId           int
+	ProjectID        *string
+	TypeID           int32
 	AccountNumber    *string
 	Memo             *string
 	TransactionLines []TransactionLineCreateProps
-	ProjectId        *string
 	PostingDate      time.Time
 	CreatedBy        string
 }
 
 type transactionProps struct {
 	TransactionType  transactionType
-	ProjectId        *string
+	ProjectID        *string
 	AccountNumber    *string
 	Memo             *string
 	TransactionLines []transactionLine
@@ -29,9 +28,9 @@ type transactionProps struct {
 }
 
 type transactionRaw struct {
-	Id                string            `json:"id"`
-	TransactionTypeId int               `json:"transaction_type_id"`
-	ProjectId         *string           `json:"project_id"`
+	ID                string            `json:"id"`
+	TransactionTypeID int32             `json:"transaction_type_id"`
+	ProjectID         *string           `json:"project_id"`
 	AccountNumber     *string           `json:"account_number"`
 	Memo              *string           `json:"memo"`
 	TransactionLines  []transactionLine `json:"transaction_lines"`
@@ -48,7 +47,7 @@ type Transaction struct {
 }
 
 func New(props NewProps, id string) (Transaction, error) {
-	transactionType, err := createTransactionType(props.TypeId)
+	transactionType, err := createTransactionType(props.TypeID)
 	if err != nil {
 		return Transaction{}, err
 	}
@@ -73,7 +72,7 @@ func New(props NewProps, id string) (Transaction, error) {
 		id: id,
 		props: transactionProps{
 			TransactionType:  transactionType,
-			ProjectId:        props.ProjectId,
+			ProjectID:        props.ProjectID,
 			AccountNumber:    props.AccountNumber,
 			Memo:             props.Memo,
 			TransactionLines: transactionLines,
@@ -87,14 +86,14 @@ func New(props NewProps, id string) (Transaction, error) {
 
 func Restore(raw transactionRaw) Transaction {
 	transactionType := restoreTransactionType(transactionType{
-		Id:   raw.TransactionTypeId,
-		Name: transactionTypeNameMap[raw.TransactionTypeId],
+		Id:   raw.TransactionTypeID,
+		Name: transactionTypeNameMap[raw.TransactionTypeID],
 	})
 	return Transaction{
-		id: raw.Id,
+		id: raw.ID,
 		props: transactionProps{
 			TransactionType:  transactionType,
-			ProjectId:        raw.ProjectId,
+			ProjectID:        raw.ProjectID,
 			AccountNumber:    raw.AccountNumber,
 			Memo:             raw.Memo,
 			PostingDate:      raw.PostingDate,
@@ -109,24 +108,4 @@ func Restore(raw transactionRaw) Transaction {
 
 func (t Transaction) Id() string {
 	return t.id
-}
-
-func (t Transaction) ToJson() (string, error) {
-	data, err := json.MarshalIndent(transactionRaw{
-		Id:                t.id,
-		TransactionTypeId: t.props.TransactionType.Id,
-		ProjectId:         t.props.ProjectId,
-		AccountNumber:     t.props.AccountNumber,
-		Memo:              t.props.Memo,
-		PostingDate:       t.props.PostingDate,
-		TransactionLines:  t.props.TransactionLines,
-		UpdatedBy:         t.props.UpdatedBy,
-		UpdatedAt:         t.props.UpdatedAt,
-		CreatedBy:         t.props.CreatedBy,
-		CreatedAt:         t.props.CreatedAt,
-	}, "", "  ")
-	if err != nil {
-		return "", err
-	}
-	return string(data), nil
 }

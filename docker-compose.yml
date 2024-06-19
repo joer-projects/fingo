@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+    accounting_postgres:
+        container_name: fingo_accounting_container
+        image: postgres
+        environment:
+            - POSTGRES_USER=fingo
+            - POSTGRES_PASSWORD=fingo
+            - POSTGRES_DB=fingo_accounting
+        ports:
+            - 5432:5432
+        networks:
+            - app-network
+        volumes:
+            - ./.docker/pgdata:/var/lib/postgresql
+networks:
+    app-network:
+        driver: bridge

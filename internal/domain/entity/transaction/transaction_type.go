@@ -13,7 +13,7 @@ const (
 	ar_credit_memo
 )
 
-var transactionTypeNameMap = map[int]string{
+var transactionTypeNameMap = map[int32]string{
 	journal_entry:    "Journal Entry",
 	vendor_payment:   "Vendor Payment",
 	incoming_payment: "Incoming Payment",
@@ -27,11 +27,11 @@ var transactionTypeNameMap = map[int]string{
 }
 
 type transactionType struct {
-	Id   int
+	Id   int32
 	Name string
 }
 
-func createTransactionType(id int) (transactionType, error) {
+func createTransactionType(id int32) (transactionType, error) {
 	typeName := transactionTypeNameMap[id]
 
 	if typeName == "" {
