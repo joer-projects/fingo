@@ -1,24 +1,25 @@
 package main
 
 import (
-	tx "fingo/internal/domain/entity/transaction"
 	"fmt"
 	"time"
 
-	uuid "github.com/google/uuid"
+	Transaction "github.com/JoerProjects/fingo/internal/domain/entity/transaction"
+
+	"github.com/google/uuid"
 )
 
 func main() {
 	AccountNumber := "123456789"
 	Memo := "Memo"
 
-	transaction, err := tx.New(tx.NewProps{
+	transaction, err := Transaction.New(Transaction.TransactionNewProps{
 		TypeId:        1,
 		AccountNumber: &AccountNumber,
 		Memo:          &Memo,
 		PostingDate:   time.Date(2024, time.January, 1, 0, 0, 0, 0, time.UTC),
 		CreatedBy:     "test",
-		TransactionLines: []tx.TransactionLineCreateProps{
+		TransactionLines: []Transaction.TransactionLineCreateProps{
 			{
 				LedgerAccountId:   "123456789",
 				BusinessPartnerId: "123456789",

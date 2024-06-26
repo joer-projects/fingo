@@ -18,7 +18,7 @@ func TestTransaction(t *testing.T) {
 		PostingDate := time.Now()
 		CreatedBy := "test"
 
-		tx, err := New(NewProps{
+		tx, err := New(TransactionNewProps{
 			TypeId:        1,
 			AccountNumber: &AccountNumber,
 			Memo:          &Memo,

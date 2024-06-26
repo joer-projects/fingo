@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type NewProps struct {
+type TransactionNewProps struct {
 	TypeId           int
 	AccountNumber    *string
 	Memo             *string
@@ -28,7 +28,7 @@ type transactionProps struct {
 	CreatedAt        time.Time
 }
 
-type transactionRaw struct {
+type TransactionRaw struct {
 	Id                string            `json:"id"`
 	TransactionTypeId int               `json:"transaction_type_id"`
 	ProjectId         *string           `json:"project_id"`
@@ -47,7 +47,7 @@ type Transaction struct {
 	props transactionProps
 }
 
-func New(props NewProps, id string) (Transaction, error) {
+func New(props TransactionNewProps, id string) (Transaction, error) {
 	transactionType, err := createTransactionType(props.TypeId)
 	if err != nil {
 		return Transaction{}, err
@@ -85,7 +85,7 @@ func New(props NewProps, id string) (Transaction, error) {
 	return new, nil
 }
 
-func Restore(raw transactionRaw) Transaction {
+func Restore(raw TransactionRaw) Transaction {
 	transactionType := restoreTransactionType(transactionType{
 		Id:   raw.TransactionTypeId,
 		Name: transactionTypeNameMap[raw.TransactionTypeId],
@@ -112,7 +112,7 @@ func (t Transaction) Id() string {
 }
 
 func (t Transaction) ToJson() (string, error) {
-	data, err := json.MarshalIndent(transactionRaw{
+	data, err := json.MarshalIndent(TransactionRaw{
 		Id:                t.id,
 		TransactionTypeId: t.props.TransactionType.Id,
 		ProjectId:         t.props.ProjectId,
