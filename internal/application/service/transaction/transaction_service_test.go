@@ -5,24 +5,24 @@ import (
 	"testing"
 	"time"
 
-	"github.com/JoerProjects/fingo/internal/domain/entity/transaction"
-	"github.com/JoerProjects/fingo/internal/infra/repository"
+	"github.com/joer-projects/fingo/internal/domain/entity/transaction"
+	"github.com/joer-projects/fingo/internal/infra/repo"
 )
 
-func TestTransactionService_Add(t *testing.T) {
-	t.Run("should add a new transaction", func(t *testing.T) {
-		transactionService := NewTransactionService(repository.NewTransactionMemoryRepo())
+func TestTransactionService_Add(test *testing.T) {
+	test.Run("should add a new transaction", func(test *testing.T) {
+		transactionService := NewTransactionService(repo.NewTransactionMemoryRepo())
 
 		AccountNumber := "1234567890"
 		Memo := "Test Memo"
 
-		transaction, err := transactionService.Add(transaction.TransactionNewProps{
+		txn, err := transactionService.Add(transaction.TransactionNewProps{
 			TypeId:        1,
 			AccountNumber: &AccountNumber,
 			Memo:          &Memo,
 			PostingDate:   time.Now(),
 			CreatedBy:     "test",
-			TransactionLines: []transaction.TransactionLineCreateProps{
+			TransactionLines: []transaction.TransactionLineNewProps{
 				{
 					LedgerAccountId:   "1",
 					BusinessPartnerId: "1",
@@ -39,9 +39,9 @@ func TestTransactionService_Add(t *testing.T) {
 		})
 
 		if err != nil {
-			t.Errorf("error occurred: %v", err)
+			test.Errorf("error occurred: %v", err)
 		}
 
-		fmt.Println(transaction)
+		fmt.Println(txn)
 	})
 }

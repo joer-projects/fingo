@@ -1,22 +1,22 @@
 package transaction_service
 
 import (
-	Transaction "github.com/JoerProjects/fingo/internal/domain/entity/transaction"
 	"github.com/google/uuid"
+	"github.com/joer-projects/fingo/internal/domain/entity/transaction"
 )
 
 type TransactionService struct {
-	repo Transaction.TransactionRepo
+	repo transaction.TransactionRepo
 }
 
-func NewTransactionService(repo Transaction.TransactionRepo) TransactionService {
+func NewTransactionService(repo transaction.TransactionRepo) TransactionService {
 	return TransactionService{
 		repo,
 	}
 }
 
-func (t *TransactionService) Add(input Transaction.TransactionNewProps) (Transaction.TransactionRaw, error) {
-	txn, err := Transaction.New(Transaction.TransactionNewProps{
+func (t *TransactionService) Add(input transaction.TransactionNewProps) (transaction.TransactionRaw, error) {
+	txn, err := transaction.NewTransaction(transaction.TransactionNewProps{
 		TypeId:           input.TypeId,
 		AccountNumber:    input.AccountNumber,
 		Memo:             input.Memo,
@@ -26,13 +26,13 @@ func (t *TransactionService) Add(input Transaction.TransactionNewProps) (Transac
 	}, uuid.New().String())
 
 	if err != nil {
-		return Transaction.TransactionRaw{}, err
+		return transaction.TransactionRaw{}, err
 	}
 
 	raw, err := t.repo.Add(txn)
 
 	if err != nil {
-		return Transaction.TransactionRaw{}, err
+		return transaction.TransactionRaw{}, err
 	}
 
 	return raw, nil
