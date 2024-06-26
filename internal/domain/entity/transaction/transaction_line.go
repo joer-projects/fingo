@@ -10,7 +10,7 @@ type transactionLine struct {
 	Description       string  `json:"description"`
 }
 
-type TransactionLineCreateProps struct {
+type TransactionLineNewProps struct {
 	LedgerAccountId   string
 	BusinessPartnerId string
 	ProjectId         string
@@ -19,7 +19,7 @@ type TransactionLineCreateProps struct {
 	Description       string
 }
 
-func NewLine(props TransactionLineCreateProps) (transactionLine, error) {
+func NewTransactionLine(props TransactionLineNewProps) (transactionLine, error) {
 	return transactionLine{
 		LedgerAccountId:   props.LedgerAccountId,
 		BusinessPartnerId: props.BusinessPartnerId,
