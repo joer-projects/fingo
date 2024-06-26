@@ -1,0 +1,10 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "sql/accounting/queries.sql"
+    schema: "sql/accounting/schema.sql"
+    gen:
+      go:
+        package: "accounting_db"
+        out: "internal/infra/db/accounting_db"
+        sql_package: "pgx/v5"
