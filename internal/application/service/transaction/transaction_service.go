@@ -29,7 +29,7 @@ func (t *TransactionService) Add(input transaction.TransactionNewProps) (transac
 		return transaction.TransactionRaw{}, err
 	}
 
-	raw, err := t.repo.Add(txn)
+	raw, err := t.repo.Add(&txn)
 
 	if err != nil {
 		return transaction.TransactionRaw{}, err

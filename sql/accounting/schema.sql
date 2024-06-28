@@ -34,7 +34,7 @@ CREATE TABLE "ledger_account_sub_type"(
 );
 
 CREATE TABLE "ledger_account"(
-  "ledger_account_id" integer PRIMARY KEY,
+  "ledger_account_id" varchar(36) PRIMARY KEY,
   "description" varchar(500),
   "account_code" varchar(56),
   "tax_code" varchar(56),
@@ -50,6 +50,6 @@ CREATE TABLE "ledger_account"(
   "created_at" timestamptz(6) NOT NULL,
   CONSTRAINT "ledger_account_to_ledger_account_class_fkey" FOREIGN KEY ("ledger_account_class_id") REFERENCES "ledger_account_class"("ledger_account_class_id") ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT "ledger_account_to_ledger_account_type_fkey" FOREIGN KEY ("ledger_account_type_id") REFERENCES "ledger_account_type"("ledger_account_type_id") ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT "ledger_account_to_ledger_account_sub_type" FOREIGN KEY ("ledger_account_sub_type_id") REFERENCES "ledger_account_sub_type"("ledger_account_sub_type_id") ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT "ledger_account_to_ledger_account_parent" FOREIGN KEY ("ledger_account_parent_id") REFERENCES "ledger_account"("ledger_account_id") ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT "ledger_account_to_ledger_account_sub_type_fkey" FOREIGN KEY ("ledger_account_sub_type_id") REFERENCES "ledger_account_sub_type"("ledger_account_sub_type_id") ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT "ledger_account_to_ledger_account_parent_fkey" FOREIGN KEY ("ledger_account_parent_id") REFERENCES "ledger_account"("ledger_account_id") ON DELETE CASCADE ON UPDATE CASCADE
 );

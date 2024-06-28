@@ -41,6 +41,19 @@ INSERT INTO accounting_transaction(
   created_at
   ) VALUES ($1, $2, $3, $4, $5, $6, $7);
 
+-- name: SaveTransaction :exec
+INSERT INTO accounting_transaction(
+  id,
+  project_id,
+  accounting_transaction_type_id,
+  memo,
+  posting_date,
+  updated_by,
+  updated_at,
+  created_by,
+  created_at
+) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9);
+
 -- name: GetTransaction :one
 SELECT * FROM accounting_transaction WHERE id = $1;
 

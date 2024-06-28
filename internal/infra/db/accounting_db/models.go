@@ -26,7 +26,7 @@ type AccountingTransactionType struct {
 }
 
 type LedgerAccount struct {
-	LedgerAccountID        int32
+	LedgerAccountID        string
 	Description            pgtype.Text
 	AccountCode            pgtype.Text
 	TaxCode                pgtype.Text

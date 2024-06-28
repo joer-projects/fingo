@@ -38,6 +38,7 @@ func TimeToPGTimestamp(t *time.Time) pgtype.Timestamptz {
 
 	if t != nil {
 		pgTimestamp.Time = *t
+		pgTimestamp.Valid = true
 	} else {
 		pgTimestamp.Valid = false
 	}

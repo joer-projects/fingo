@@ -1,17 +1,17 @@
-.PHONY: build run test 
+.PHONY: build run test
 
-test: 
+test:
 	go test ./...
 
 env.up:
 	docker-compose up -d
+	sleep 1
+	sqlc generate
+	sleep 1
+	psql postgresql://admin:admin@localhost:5432/accounting -f sql/accounting/schema.sql
+	sleep 1
+	go run seed/main.go
 
 env.down:
 	docker-compose down
 	docker volume rm fingo_postgres_data
-
-seed:
-	go run ./internal/infra/seed/accounting/accounting_seed.go
-
-sqlc.gen:
-	docker run --rm -v $(shell pwd):/src -w /src sqlc/sqlc generate

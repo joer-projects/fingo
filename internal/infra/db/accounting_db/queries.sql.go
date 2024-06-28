@@ -101,6 +101,47 @@ func (q *Queries) GetTransactions(ctx context.Context) ([]AccountingTransaction,
 	return items, nil
 }
 
+const saveTransaction = `-- name: SaveTransaction :exec
+INSERT INTO accounting_transaction(
+  id,
+  project_id,
+  accounting_transaction_type_id,
+  memo,
+  posting_date,
+  updated_by,
+  updated_at,
+  created_by,
+  created_at
+) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+`
+
+type SaveTransactionParams struct {
+	ID                          string
+	ProjectID                   pgtype.Text
+	AccountingTransactionTypeID int32
+	Memo                        pgtype.Text
+	PostingDate                 pgtype.Timestamptz
+	UpdatedBy                   pgtype.Text
+	UpdatedAt                   pgtype.Timestamptz
+	CreatedBy                   string
+	CreatedAt                   pgtype.Timestamptz
+}
+
+func (q *Queries) SaveTransaction(ctx context.Context, arg SaveTransactionParams) error {
+	_, err := q.db.Exec(ctx, saveTransaction,
+		arg.ID,
+		arg.ProjectID,
+		arg.AccountingTransactionTypeID,
+		arg.Memo,
+		arg.PostingDate,
+		arg.UpdatedBy,
+		arg.UpdatedAt,
+		arg.CreatedBy,
+		arg.CreatedAt,
+	)
+	return err
+}
+
 const seedLedgerAccount = `-- name: SeedLedgerAccount :exec
 INSERT INTO ledger_account(
   ledger_account_id, 
@@ -121,7 +162,7 @@ INSERT INTO ledger_account(
 `
 
 type SeedLedgerAccountParams struct {
-	LedgerAccountID        int32
+	LedgerAccountID        string
 	Description            pgtype.Text
 	AccountCode            pgtype.Text
 	TaxCode                pgtype.Text

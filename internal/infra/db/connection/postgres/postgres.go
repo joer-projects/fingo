@@ -13,7 +13,6 @@ func NewConnection(ctx context.Context) (*pgx.Conn, error) {
 	if err != nil {
 		return db, err
 	}
-	defer db.Close(ctx)
 
 	return db, nil
 }

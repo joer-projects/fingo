@@ -1,6 +1,7 @@
 package transaction_service
 
 import (
+	"context"
 	"fmt"
 	"testing"
 	"time"
@@ -11,7 +12,15 @@ import (
 
 func TestTransactionService_Add(test *testing.T) {
 	test.Run("should add a new transaction", func(test *testing.T) {
-		transactionService := NewTransactionService(repo.NewTransactionMemoryRepo())
+		ctx := context.Background()
+
+		pg, err := repo.NewTransactionPostgresRepo(ctx)
+
+		if err != nil {
+			test.Errorf("error occurred: %v", err)
+		}
+
+		transactionService := NewTransactionService(pg)
 
 		AccountNumber := "1234567890"
 		Memo := "Test Memo"
