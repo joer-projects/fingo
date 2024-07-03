@@ -15,10 +15,9 @@ func NewTransactionService(repo transaction.TransactionRepo) TransactionService 
 	}
 }
 
-func (t *TransactionService) Add(input transaction.TransactionNewProps) (transaction.TransactionRaw, error) {
+func (t *TransactionService) Add(input *transaction.TransactionNewProps) (*transaction.TransactionRaw, error) {
 	txn, err := transaction.NewTransaction(transaction.TransactionNewProps{
 		TypeId:           input.TypeId,
-		AccountNumber:    input.AccountNumber,
 		Memo:             input.Memo,
 		PostingDate:      input.PostingDate,
 		CreatedBy:        input.CreatedBy,
@@ -26,13 +25,13 @@ func (t *TransactionService) Add(input transaction.TransactionNewProps) (transac
 	}, uuid.New().String())
 
 	if err != nil {
-		return transaction.TransactionRaw{}, err
+		return nil, err
 	}
 
 	raw, err := t.repo.Add(&txn)
 
 	if err != nil {
-		return transaction.TransactionRaw{}, err
+		return nil, err
 	}
 
 	return raw, nil

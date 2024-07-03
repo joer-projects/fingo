@@ -5,34 +5,22 @@ import (
 	"time"
 )
 
-func (t Transaction) ToJson() (string, error) {
-	data, err := json.Marshal(TransactionRaw{
-		Id:                t.GetID(),
-		TransactionTypeId: t.props.TransactionType.Id,
-		ProjectId:         t.props.ProjectId,
-		AccountCode:       t.props.AccountCode,
-		Memo:              t.props.Memo,
-		PostingDate:       t.props.PostingDate,
-		TransactionLines:  t.props.TransactionLines,
-		UpdatedBy:         t.Entity.GetUpdatedBy(),
-		UpdatedAt:         t.Entity.GetUpdatedAt(),
-		CreatedBy:         t.Entity.GetCreatedBy(),
-		CreatedAt:         t.Entity.GetCreatedAt(),
-	})
+func (t Transaction) ToJson() ([]byte, error) {
+	raw := t.ToRaw()
+	data, err := json.Marshal(raw)
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return string(data), nil
+	return data, nil
 }
 
-func (t Transaction) ToRaw() TransactionRaw {
-	return TransactionRaw{
+func (t Transaction) ToRaw() *TransactionRaw {
+	raw := TransactionRaw{
 		Id:                t.GetID(),
 		TransactionTypeId: t.props.TransactionType.Id,
 		ProjectId:         t.props.ProjectId,
-		AccountCode:       t.props.AccountCode,
 		Memo:              t.props.Memo,
 		PostingDate:       t.props.PostingDate,
 		TransactionLines:  t.props.TransactionLines,
@@ -41,13 +29,13 @@ func (t Transaction) ToRaw() TransactionRaw {
 		CreatedBy:         t.Entity.GetCreatedBy(),
 		CreatedAt:         t.Entity.GetCreatedAt(),
 	}
+	return &raw
 }
 
 type TransactionRaw struct {
 	Id                string            `json:"id"`
 	TransactionTypeId int               `json:"transaction_type_id"`
 	ProjectId         *string           `json:"project_id"`
-	AccountCode       *string           `json:"account_code"`
 	Memo              *string           `json:"memo"`
 	TransactionLines  []transactionLine `json:"transaction_lines"`
 	PostingDate       time.Time         `json:"posting_date"`

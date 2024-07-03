@@ -8,7 +8,6 @@ import (
 
 type TransactionNewProps struct {
 	TypeId           int
-	AccountNumber    *string
 	Memo             *string
 	TransactionLines []TransactionLineNewProps
 	ProjectId        *string
@@ -40,7 +39,6 @@ func NewTransaction(props TransactionNewProps, id string) (Transaction, error) {
 		props: transactionProps{
 			TransactionType:  transactionType,
 			ProjectId:        props.ProjectId,
-			AccountCode:      props.AccountNumber,
 			Memo:             props.Memo,
 			TransactionLines: transactionLines,
 			PostingDate:      props.PostingDate,
@@ -66,7 +64,6 @@ func Restore(raw TransactionRaw) Transaction {
 		props: transactionProps{
 			ProjectId:        raw.ProjectId,
 			TransactionType:  transactionType,
-			AccountCode:      raw.AccountCode,
 			Memo:             raw.Memo,
 			PostingDate:      raw.PostingDate,
 			TransactionLines: raw.TransactionLines,

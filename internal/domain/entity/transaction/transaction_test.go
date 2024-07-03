@@ -17,19 +17,17 @@ func TestTransaction(t *testing.T) {
 			t.Error(err)
 		}
 
-		AccountNumber := "1234567890"
 		Memo := "test"
 		ProjectId := "123"
 		PostingDate := time.Now()
 		CreatedBy := "test"
 
 		txn, err := NewTransaction(TransactionNewProps{
-			TypeId:        1,
-			AccountNumber: &AccountNumber,
-			Memo:          &Memo,
-			ProjectId:     &ProjectId,
-			PostingDate:   PostingDate,
-			CreatedBy:     CreatedBy,
+			TypeId:      1,
+			Memo:        &Memo,
+			ProjectId:   &ProjectId,
+			PostingDate: PostingDate,
+			CreatedBy:   CreatedBy,
 			TransactionLines: []TransactionLineNewProps{
 				{
 					LedgerAccountId:   "1234567890",
@@ -53,7 +51,6 @@ func TestTransaction(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, id.String(), txn.GetID())
 		assert.Equal(t, 1, txn.props.TransactionType.Id)
-		assert.Equal(t, AccountNumber, *txn.props.AccountCode)
 		assert.Equal(t, Memo, *txn.props.Memo)
 		assert.Equal(t, ProjectId, *txn.props.ProjectId)
 		assert.Equal(t, PostingDate, txn.props.PostingDate)
