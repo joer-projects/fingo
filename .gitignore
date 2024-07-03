@@ -1,4 +1,5 @@
 .envrc
-.vscode
+.vscode/*
+.idea/*
 bin/*
 !bin/.gitkeep
