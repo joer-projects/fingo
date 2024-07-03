@@ -1,0 +1,8 @@
+# direnv file. https://direnv.net
+
+# export PG_HOST=localhost
+# export PG_PORT=5432
+# export PG_USER=fingo
+# export PG_PASS=fingo
+# export PG_NAME=fingo
+# export PG_SSLMODE=disable
